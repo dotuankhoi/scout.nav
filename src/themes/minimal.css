@@ -1,0 +1,269 @@
+/*
+ * ============================  MINIMAL THEME  ============================
+ * Cyber-industrial profile: one cold slate-black surface, cyber-cyan
+ * primary accent, electric-blue secondary for data, steel-blue dims,
+ * sharp geometric monospace (Fira Code), zero containers.
+ *
+ * Every rule is scoped under `html.theme-minimal` (higher specificity than
+ * the classic `.dark` token block, and this file is imported after
+ * index.css), so removing the class instantly restores the classic UI.
+ * Interactive primitives expose `rp-*` hook classes for clean targeting.
+ * ========================================================================
+ */
+
+html.theme-minimal {
+  /* -- palette: cyber-industrial ---------------------------------------- */
+  --mm-bg: #0d0f12;
+  --mm-surface: #14171c; /* floating layers only: menus, dialogs, tooltips */
+  --mm-text: #c9d1d9;
+  --mm-dim: #566275;
+  --mm-accent: #00e5ff; /* cyber cyan: active states, path, running */
+  --mm-accent2: #0077ff; /* electric blue: data bars, secondary highlights */
+  --mm-error: #e5484d;
+  --mm-hairline: rgba(255, 255, 255, 0.05);
+
+  /* -- token overrides (shadcn/Tailwind vars) --------------------------- */
+  --background: var(--mm-bg);
+  --foreground: var(--mm-text);
+  --card: transparent;
+  --card-foreground: var(--mm-text);
+  --popover: var(--mm-surface);
+  --popover-foreground: var(--mm-text);
+  --primary: var(--mm-accent);
+  --primary-foreground: var(--mm-bg);
+  --secondary: transparent;
+  --secondary-foreground: var(--mm-dim);
+  --muted: rgba(86, 98, 117, 0.18);
+  --muted-foreground: var(--mm-dim);
+  --accent: rgba(0, 229, 255, 0.07);
+  --accent-foreground: var(--mm-accent);
+  --destructive: var(--mm-error);
+  --border: var(--mm-hairline);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: rgba(0, 229, 255, 0.35);
+
+  font-family: 'Fira Code', 'SF Mono', ui-monospace, 'Cascadia Code', monospace;
+}
+
+/* Cool selection highlight (secondary accent). */
+html.theme-minimal ::selection {
+  background: rgba(0, 119, 255, 0.35);
+  color: var(--mm-text);
+}
+
+/* -- typography: uniform light monospace, no bold anywhere -------------- */
+html.theme-minimal body,
+html.theme-minimal button,
+html.theme-minimal input,
+html.theme-minimal select,
+html.theme-minimal kbd,
+html.theme-minimal pre,
+html.theme-minimal code {
+  font-family: 'Fira Code', 'SF Mono', ui-monospace, 'Cascadia Code', monospace;
+}
+html.theme-minimal * {
+  font-weight: 400 !important;
+  text-shadow: none !important;
+}
+html.theme-minimal body {
+  font-weight: 300;
+}
+
+/* Lowercase, text-first chrome (code/pseudocode stays untouched). */
+html.theme-minimal button,
+html.theme-minimal [role='tab'],
+html.theme-minimal [role='option'],
+html.theme-minimal label,
+html.theme-minimal th,
+html.theme-minimal h1,
+html.theme-minimal h2,
+html.theme-minimal h3,
+html.theme-minimal .rp-select,
+html.theme-minimal .rp-badge,
+html.theme-minimal [class*='uppercase'] {
+  text-transform: lowercase !important;
+  letter-spacing: 0.02em;
+}
+html.theme-minimal pre,
+html.theme-minimal code {
+  text-transform: none !important;
+}
+
+/* -- surfaces: kill gradients, glass, cards, shadows -------------------- */
+html.theme-minimal .app-backdrop {
+  background: var(--mm-bg);
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+}
+html.theme-minimal .app-backdrop > div {
+  gap: 2.5rem; /* open whitespace instead of structural lines */
+}
+html.theme-minimal main {
+  gap: 2rem;
+}
+html.theme-minimal .glass {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+/* Inner cards/tiles inside the side panel and toolbars: dissolve them. */
+html.theme-minimal aside div[class*='rounded-xl'],
+html.theme-minimal aside pre {
+  border-color: transparent;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* Gradient brand chip → flat, quiet mark. */
+html.theme-minimal header .bg-gradient-to-br {
+  background: transparent;
+  box-shadow: none;
+  color: var(--mm-accent);
+}
+html.theme-minimal header .bg-clip-text {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--mm-text);
+}
+
+/* Floating layers keep a solid surface (readability over the canvas). */
+html.theme-minimal [role='dialog'],
+html.theme-minimal [data-radix-popper-content-wrapper] > * {
+  background: var(--mm-surface);
+  border-color: var(--mm-hairline);
+  box-shadow: none;
+}
+html.theme-minimal [role='dialog'] div[class*='rounded-xl'],
+html.theme-minimal [role='dialog'] button[class*='rounded-xl'] {
+  background: transparent;
+}
+
+/* -- buttons: bare text / bare icons ------------------------------------ */
+html.theme-minimal .rp-btn {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--mm-dim);
+  border-radius: 4px;
+}
+html.theme-minimal .rp-btn:hover {
+  color: var(--mm-text);
+}
+/* Anything the classic theme painted accent/solid = the active state. */
+html.theme-minimal .rp-btn[class*='bg-primary'] {
+  color: var(--mm-accent);
+}
+html.theme-minimal .rp-btn[class*='bg-primary']:hover {
+  color: var(--mm-accent);
+  filter: none;
+}
+html.theme-minimal .rp-btn:disabled {
+  opacity: 0.3;
+}
+html.theme-minimal .rp-btn:active {
+  transform: none;
+}
+
+/* -- selects: quiet text links ------------------------------------------ */
+html.theme-minimal .rp-select {
+  background: transparent;
+  border-color: transparent;
+  color: var(--mm-dim);
+}
+html.theme-minimal .rp-select:hover {
+  background: transparent;
+  color: var(--mm-text);
+}
+
+/* -- tabs: inline lowercase menu row, no pill track ---------------------- */
+html.theme-minimal .rp-tabs-list {
+  background: transparent;
+  padding: 0;
+  gap: 1.25rem;
+  justify-content: flex-start;
+  height: auto;
+}
+html.theme-minimal .rp-tab {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--mm-dim);
+  padding: 0;
+  flex: 0 0 auto;
+}
+html.theme-minimal .rp-tab:hover {
+  color: var(--mm-text);
+}
+html.theme-minimal .rp-tab[data-state='active'] {
+  color: var(--mm-accent);
+}
+
+/* -- sliders: ultra-thin tracks; ranges are data → secondary accent ------ */
+html.theme-minimal .rp-slider-track {
+  height: 2px;
+  background: rgba(86, 98, 117, 0.25);
+}
+html.theme-minimal .rp-slider-range {
+  background: var(--mm-accent2);
+}
+html.theme-minimal .rp-slider-thumb {
+  width: 8px;
+  height: 8px;
+  border-width: 1px;
+  border-color: var(--mm-accent2);
+  background: var(--mm-bg);
+  box-shadow: none;
+}
+
+/* -- switches: no pills; a hairline + label color carries the state ------ */
+html.theme-minimal .rp-switch {
+  height: 2px;
+  width: 18px;
+  border: none;
+  border-radius: 1px;
+  background: rgba(86, 98, 117, 0.4) !important;
+}
+html.theme-minimal .rp-switch[data-state='checked'] {
+  background: var(--mm-accent) !important;
+}
+html.theme-minimal .rp-switch-thumb {
+  width: 7px;
+  height: 7px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: var(--mm-dim);
+  box-shadow: none;
+}
+html.theme-minimal .rp-switch-thumb[data-state='checked'] {
+  transform: translateX(11px);
+  background: var(--mm-accent);
+}
+html.theme-minimal label:has(.rp-switch[data-state='checked']) {
+  color: var(--mm-accent);
+}
+
+/* -- badges: text-only accents, no chips --------------------------------- */
+html.theme-minimal .rp-badge {
+  background: transparent !important;
+  border-color: transparent !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* -- kbd: hairline outline only ------------------------------------------ */
+html.theme-minimal kbd {
+  background: transparent;
+  box-shadow: none;
+  border-color: var(--mm-hairline);
+}
+
+/* -- data highlights: "winner" cells in compare tables → secondary accent - */
+html.theme-minimal td[class*='text-emerald'] {
+  color: var(--mm-accent2) !important;
+}
+
+/* -- scrollbars ----------------------------------------------------------- */
+html.theme-minimal *::-webkit-scrollbar-thumb {
+  background: rgba(86, 98, 117, 0.35);
+}
